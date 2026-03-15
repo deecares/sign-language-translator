@@ -1,26 +1,51 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import Webcam from "react-webcam";
-import axios from "axios";
+import "./App.css";
 
 function App() {
   const webcamRef = useRef(null);
-  const [detected, setDetected] = useState("");
+  const [detectedText, setDetectedText] = useState("Nothing yet");
 
-  const capture = async () => {
+  // Speak text whenever detectedText changes
+  useEffect(() => {
+    if (detectedText && detectedText !== "Nothing yet") {
+      if ("speechSynthesis" in window) {
+        const msg = new SpeechSynthesisUtterance(detectedText);
+        msg.lang = "en-US";
+        window.speechSynthesis.speak(msg);
+      }
+    }
+  }, [detectedText]);
+
+  // Capture image from webcam
+  const capture = () => {
     const imageSrc = webcamRef.current.getScreenshot();
-    const response = await axios.post("http://localhost:8000/predict", {
-      image: imageSrc,
-    });
-    setDetected(response.data.prediction);
+    console.log("Captured image:", imageSrc);
+
+    // Update detected text (placeholder for backend)
+    setDetectedText("Hello! This is the detected text.");
   };
 
   return (
-    <div style={{ textAlign: "center" }}>
-      <h1>Sign Language Translator</h1>
-      <Webcam audio={false} ref={webcamRef} screenshotFormat="image/jpeg" width={500} />
-      <button onClick={capture}>Capture</button>
-      <h2>Detected Text:</h2>
-      <p>{detected}</p>
+    <div className="app-container">
+      <h1 className="title">Sign Language Translator</h1>
+
+      <div className="card">
+        <Webcam
+          audio={false}
+          ref={webcamRef}
+          screenshotFormat="image/jpeg"
+          className="webcam"
+        />
+        <button className="capture-btn" onClick={capture}>
+          Capture
+        </button>
+      </div>
+
+      <div className="card output-card">
+        <h2>Detected Text</h2>
+        <p>{detectedText}</p>
+      </div>
     </div>
   );
 }

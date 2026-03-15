@@ -5,16 +5,16 @@ from tensorflow.keras.preprocessing.image import ImageDataGenerator
 data = ImageDataGenerator(rescale=1./255, validation_split=0.2)
 
 train_data = data.flow_from_directory(
-    "../dataset/train",
+    "dataset/train",
     target_size=(64,64),
-    batch_size=32,
+    batch_size=8,
     subset="training"
 )
 
 val_data = data.flow_from_directory(
-    "../dataset/train",
+    "dataset/train",
     target_size=(64,64),
-    batch_size=32,
+    batch_size=8,
     subset="validation"
 )
 

@@ -1,10 +1,12 @@
 import React, { useRef, useState, useEffect } from "react";
+import axios from "axios";
 import Webcam from "react-webcam";
 import "./App.css";
 
 function App() {
   const webcamRef = useRef(null);
   const [detectedText, setDetectedText] = useState("Nothing yet");
+  const [sentence, setSentence] = useState("");
 
   // Speak text whenever detectedText changes
   useEffect(() => {
@@ -17,14 +19,38 @@ function App() {
     }
   }, [detectedText]);
 
-  // Capture image from webcam
-  const capture = () => {
+  // Capture image from webcam and send it to the backend for prediction
+  const capture = async () => {
     const imageSrc = webcamRef.current.getScreenshot();
     console.log("Captured image:", imageSrc);
 
-    // Update detected text (placeholder for backend)
-    setDetectedText("Hello! This is the detected text.");
+    if (!imageSrc) {
+      setDetectedText("Unable to capture image from webcam.");
+      return;
+    }
+
+    setDetectedText("Detecting...");
+
+    try {
+      const response = await axios.post("http://localhost:5000/predict", { image: imageSrc });
+      const { letter, confidence } = response.data;
+      const confidencePct = (confidence * 100).toFixed(1);
+
+      setDetectedText(`${letter} (${confidencePct}%)`);
+
+      // Only append to the sentence when the model is reasonably confident.
+      if (confidence > 0.55) {
+        setSentence((prev) => prev + letter);
+      }
+    } catch (err) {
+      console.error(err);
+      setDetectedText("Detection failed. Is the backend running?");
+    }
   };
+
+  const addSpace = () => setSentence((prev) => prev + " ");
+  const clearSentence = () => setSentence("");
+  const removeLast = () => setSentence((prev) => prev.slice(0, -1));
 
   return (
     <div className="app-container">
@@ -45,6 +71,25 @@ function App() {
       <div className="card output-card">
         <h2>Detected Text</h2>
         <p>{detectedText}</p>
+
+        <div className="sentence-row">
+          <h2>Sentence</h2>
+          <p className="sentence-text">
+            {sentence || <em>Start capturing letters ...</em>}
+          </p>
+        </div>
+
+        <div className="sentence-actions">
+          <button className="small-btn" onClick={addSpace}>
+            Add Space
+          </button>
+          <button className="small-btn" onClick={removeLast}>
+            Backspace
+          </button>
+          <button className="small-btn" onClick={clearSentence}>
+            Clear
+          </button>
+        </div>
       </div>
     </div>
   );

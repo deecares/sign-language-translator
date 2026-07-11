@@ -1,68 +1,115 @@
-# Sign Language Translator
+# 🤟 Sign Language to Text & Speech Translator
 
-## Overview
-This project provides a simple sign language letter classifier using a trained TensorFlow model and a React frontend that uses the webcam.
+An AI-powered web application that recognizes American Sign Language (ASL) hand gestures and converts them into readable text and speech in real time. The project leverages Deep Learning and Computer Vision to improve communication between sign language users and non-signers.
 
-- **Backend** (Python + Flask): accepts an image from the browser, runs the model, and returns the predicted letter.
-- **Frontend** (React): captures webcam image, sends it to the backend, and displays the detected letter.
+## 🚀 Features
 
-## Setup (Windows)
+- 🖐️ Real-time sign language gesture recognition
+- 📝 Converts sign language into text
+- 🔊 Text-to-Speech (TTS) output
+- 📷 Webcam-based gesture detection
+- 🤖 Deep Learning model for accurate classification
+- 💻 User-friendly web interface
 
-### 1) Prepare Python environment
+## 🛠️ Tech Stack
 
-1. Open a terminal and change to the project root:
-   ```powershell
-   cd F:\sign-language-translator
-   ```
-2. Create and activate a venv (if not already):
-   ```powershell
-   python -m venv venv
-   .\venv\Scripts\Activate.ps1
-   ```
-3. Install Python dependencies:
-   ```powershell
-   pip install -r requirements.txt
-   ```
+- Python
+- TensorFlow / Keras
+- OpenCV
+- NumPy
+- Flask
+- HTML
+- CSS
+- JavaScript
+- gTTS (Google Text-to-Speech)
 
-### 2) Start the backend server
+## 🧠 Model
 
-From the project root (with the venv activated):
+The gesture recognition model is built using a **Convolutional Neural Network (CNN)** trained on the **American Sign Language (ASL) Alphabet Dataset**.
 
-```powershell
-python -m app.server
+### Model Performance
+
+- **Model:** CNN
+- **Dataset:** ASL Alphabet Dataset
+- **Accuracy:** **72%**
+- **Framework:** TensorFlow/Keras
+
+## 📂 Project Structure
+
+```text
+Sign-Language-Translator/
+│── app.py
+│── model/
+│── static/
+│── templates/
+│── dataset/
+│── requirements.txt
+│── README.md
 ```
 
-This starts a Flask server on `http://localhost:5000`.
+## ⚙️ Installation
 
-### 3) Start the frontend
+Clone the repository:
 
-In a separate terminal, run:
-
-```powershell
-cd frontend\sign-ui
-npm install
-npm start
+```bash
+git clone https://github.com/deecares/sign-language-translator.git
+cd sign-language-translator
 ```
 
-Then open the browser at `http://localhost:3000`.
+Install dependencies:
 
----
+```bash
+pip install -r requirements.txt
+```
 
-## Usage
+Run the application:
 
-1. Allow the browser to use your webcam.
-2. Click **Capture** to take a snapshot.
-3. The app sends the image to the backend, which returns the predicted letter and confidence.
+```bash
+python app.py
+```
 
-## Notes
+Open your browser and visit:
 
-- The model in `model/model.h5` expects 64x64 RGB images.
-- The frontend currently sends a full-frame screenshot to the backend.
+```
+http://127.0.0.1:5000
+```
 
----
+## 📸 Screenshots
 
-## Extending the project
+> Add screenshots of the application interface here.
 
-- Add word-level smoothing / buffering.
-- Improve hand detection / ROI cropping before prediction.
-- Add a training pipeline that exports an up-to-date model.
+## 🎯 How It Works
+
+1. Capture hand gestures using a webcam.
+2. Preprocess the captured image.
+3. Feed the image into the trained CNN model.
+4. Predict the corresponding ASL alphabet.
+5. Display the translated text.
+6. Convert the text into speech using Text-to-Speech.
+
+## 💡 Future Enhancements
+
+- Support complete words and sentences
+- Dynamic gesture recognition
+- Multiple sign language support
+- Improved model accuracy
+- Mobile application
+- Voice-to-Sign translation
+- Cloud deployment
+
+## 📚 Applications
+
+- Assistive communication for deaf and hard-of-hearing individuals
+- Educational tools for learning sign language
+- Accessibility solutions
+- Healthcare and customer service support
+
+## 👩‍💻 Author
+
+**Deekshitha Marothu**
+
+- GitHub: https://github.com/deecares
+
+## 📄 License
+
+This project is developed for educational and research purposes.

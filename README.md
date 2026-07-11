@@ -74,10 +74,6 @@ Open your browser and visit:
 http://127.0.0.1:5000
 ```
 
-## 📸 Screenshots
-
-> Add screenshots of the application interface here.
-
 ## 🎯 How It Works
 
 1. Capture hand gestures using a webcam.
